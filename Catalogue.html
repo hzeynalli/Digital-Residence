@@ -20,6 +20,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font);
+  -webkit-text-size-adjust:100%;
   font-weight:400;font-size:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 var(--s25)}
@@ -29,14 +30,15 @@ h1,h2,h3{font-weight:400;margin:0}
 #prog{position:fixed;top:0;left:0;height:2px;background:var(--cream);width:0;z-index:70;
   mix-blend-mode:difference}
 nav{position:sticky;top:0;z-index:60;background:var(--ink);color:var(--cream)}
-nav .bar{max-width:var(--max);margin:0 auto;padding:var(--s17) var(--s25);
-  display:flex;align-items:center;gap:var(--s50);flex-wrap:wrap;row-gap:var(--s13)}
+nav .bar{max-width:var(--max);margin:0 auto;padding:var(--s5) var(--s25);
+  display:flex;align-items:center;gap:var(--s50);flex-wrap:wrap;row-gap:0}
 nav .mark{height:13px;width:auto}
 nav ul{list-style:none;display:flex;gap:var(--s25);margin:0;padding:0;flex-wrap:wrap;
   row-gap:var(--s8)}
 nav a{color:var(--cream);text-decoration:none;font-size:var(--body-sm);line-height:1;
-  border-bottom:1px solid transparent;padding-bottom:2px}
-nav a:hover,nav a.active{border-bottom-color:var(--cream)}
+  display:block;padding:16px 0}
+nav a span{border-bottom:1px solid transparent;padding-bottom:2px}
+nav a:hover span,nav a.active span{border-bottom-color:var(--cream)}
 nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
 
 /* hero */
@@ -65,9 +67,10 @@ nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
 
 /* filter */
 .filter{display:flex;gap:var(--s25);margin-bottom:var(--s25);flex-wrap:wrap}
-.filter button{background:none;border:0;padding:0 0 2px;font:400 var(--body-sm)/1 var(--font);
-  color:var(--ink);cursor:pointer;border-bottom:1px solid transparent}
-.filter button.active{border-bottom-color:var(--ink)}
+.filter button{background:none;border:0;padding:15px 0;font:400 var(--body-sm)/1 var(--font);
+  color:var(--ink);cursor:pointer}
+.filter button span{border-bottom:1px solid transparent;padding-bottom:2px}
+.filter button.active span{border-bottom-color:var(--ink)}
 
 /* catalogue grid */
 .cat{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--ink);
@@ -139,14 +142,30 @@ nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
 .rv{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
 .rv.on{opacity:1;transform:none}
 
+@media(min-width:1800px){
+  .wrap,nav .bar,.outro .wrap{max-width:1760px}
+  .cat{grid-template-columns:repeat(4,1fr)}
+}
 @media(max-width:1100px){
-  .cat,.houses{grid-template-columns:repeat(2,1fr)}
+  .houses{grid-template-columns:repeat(2,1fr)}
   .setitem{grid-template-columns:1fr 1fr}
+  /* compact meta from here down — keeps the page from running to 15,000px */
+  .body{padding:var(--s13)}
+  .item h3{font-size:var(--body-sm);margin-bottom:var(--s13)}
+  .price{font-size:var(--sub)}
+  .avail{font-size:var(--caption);gap:var(--s5)}
+  .idx{font-size:11px;margin-bottom:var(--s13)}
+  .sku{font-size:11px}
+  .alt img{width:40px;height:40px}
+}
+@media(max-width:600px){
+  .cat{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:720px){
-  .cat,.houses{grid-template-columns:1fr}
+  .wrap{padding:0 var(--s17)}
+  .houses{grid-template-columns:1fr}
   .setitem{grid-template-columns:1fr}
-  .sethero{border-right:0;border-bottom:1px solid var(--ink)}
+  .sethero{border-right:0;border-bottom:1px solid var(--ink);aspect-ratio:16/9}
   .srow{grid-template-columns:40px 1fr auto;gap:var(--s13)}
   .sthumb{width:40px;height:40px}
   .savail{font-size:var(--caption)}
@@ -154,9 +173,14 @@ nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
   .shead h2{font-size:var(--h-sm)}
   .herofoot,.trow{grid-template-columns:1fr}
   .herofoot .r{text-align:left}
-  nav ul{gap:var(--s13)}
+  nav a{font-size:var(--caption)}
   nav .bar{gap:var(--s17)}
+  nav ul{gap:var(--s13)}
+  nav .mark{display:none}
   nav .meta{display:none}
+  nav .bar{justify-content:flex-start}
+  .filter{gap:var(--s17)}
+  .setitem h3{font-size:var(--sub)}
 }
 @media print{
   nav,#prog,.filter{display:none}
@@ -173,10 +197,10 @@ nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
   <div class="bar">
     <img class="mark" src="data:image/png;base64,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" alt="Italdizain">
     <ul>
-      <li><a href="#katalog">Каталог</a></li>
-      <li><a href="#nabory">Наборы</a></li>
-      <li><a href="#doma">Дома</a></li>
-      <li><a href="#usloviya">Условия</a></li>
+      <li><a href="#katalog"><span>Каталог</span></a></li>
+      <li><a href="#nabory"><span>Наборы</span></a></li>
+      <li><a href="#doma"><span>Дома</span></a></li>
+      <li><a href="#usloviya"><span>Условия</span></a></li>
     </ul>
     <div class="meta">Июль 2026</div>
   </div>
@@ -202,10 +226,10 @@ nav .meta{margin-left:auto;font-size:var(--caption);line-height:1}
     <span class="count" id="count">27 позиций</span>
   </div>
   <div class="filter">
-    <button class="active" data-f="all">Все</button>
-    <button data-f="Christofle">Christofle</button>
-    <button data-f="Bernardaud">Bernardaud</button>
-    <button data-f="Baccarat">Baccarat</button>
+    <button class="active" data-f="all"><span>Все</span></button>
+    <button data-f="Christofle"><span>Christofle</span></button>
+    <button data-f="Bernardaud"><span>Bernardaud</span></button>
+    <button data-f="Baccarat"><span>Baccarat</span></button>
   </div>
   <div class="cat" id="cat">
 <article class="item" data-brand="Christofle">
